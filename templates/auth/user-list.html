@@ -1,0 +1,459 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block head_title%}
+        <title>Customers | Symox - Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block extra_css %}
+<!-- datepicker css -->
+<link rel="stylesheet" href="{% static 'libs/flatpickr/dist/flatpickr.min.css' %}">
+<!-- gridjs css -->
+<link rel="stylesheet" href="{% static 'libs/gridjs/dist/theme/mermaid.min.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+{#    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">#}
+{#    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>#}
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+{#    <script type='text/javascript'>#}
+    {#var people = {{ data|safe }};#}
+{#    var people = {{ data|safe }};#}
+{#    var rows_per_page = {{ rows_per_page|safe }};#}
+    {#var page_range = {{ page_range|safe }};#}
+{#    var num_of_pages = {{ num_of_pages|safe }};#}
+    {#var has_next = {{ has_next|safe }};#}
+    {#var has_previous = {{ has_previous|safe }};#}
+{#    console.log("People: ", people)#}
+{#    console.log("Rows per page: ", rows_per_page)#}
+    {#console.log("Page Range: ", page_range)#}
+{#    console.log("Number of Pages: ", num_of_pages)#}
+    {#console.log("Has Next: ", has_next)#}
+    {#console.log("Has Previous: ", has_previous)#}
+{#  </script>#}
+
+{% endblock extra_css %}
+
+{% block content %}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">Users</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">User Management</a></li>
+                            <li class="breadcrumb-item active">Users</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 id="data" style="display: none">{{ data|safe}}</h4>
+{#                        {% for element in data %}#}
+{#                        <p>{{ element.username }}</p>#}
+{#                        {% endfor %}#}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+{#                        <div class="position-relative">#}
+{#                            <div class="modal-button mt-2">#}
+{#                                <button type="button" class="btn btn-success waves-effect waves-light mb-2 me-2" data-bs-toggle="modal" data-bs-target=".new-customer"><i class="mdi mdi-plus me-1"></i> New User {{ has_previous }}</button>#}
+{#                            </div>#}
+{#                        </div>#}
+                        <div>
+                            <button type="button" class="btn btn-success btn-lg float-end p-1 mb-5" style="padding: 0px !important; margin-left: 30px !important;" ><i class="mdi mdi-account me-1 " style="font-size: 1.5em;"></i><i class="mdi mdi-plus me-1 fa-2x" style="font-size: 1.5em;"></i></button>
+                        </div>
+
+                        <div id="app">
+                        <datatable-theme-provider name="bootstrap4">
+                          <datatable-wrapper
+                            :options="options"
+                            @perPageChanged="onPerPageChanged"
+                            @searching="onSearch"
+                            @gettingRecords="onGettingRecords"
+                            @recordsFetched="onRecordsFetched"
+                            @columnClicked="onColumnClicked"
+                            @prev="onPaginate"
+                            @next="onPaginate"
+                            @linkClicked="onPaginate"
+                            @create="onCreate"
+                            @edit="onEdit"
+                            @del="onDelete">
+                            <template
+                              slot="storage"
+                              slot-scope="config">
+                              <datatable-modal />
+                              <datatable-header>
+                                <datatable-perpage :per-page="['10', '20', '30', '50']" />
+                                <datatable-create-button />
+                                <datatable-search />
+                              </datatable-header>
+                              <datatable
+                                :url="url"
+                                :filter="config.filter">
+                                <datatable-loader :is-loading="config.loading" />
+                                <datatable-head :columns="config.columns" />
+                                <datatable-body :records="config.records" />
+                                <datatable-footer :columns="config.columns" />
+                              </datatable>
+                              <datatable-pagination :pagination="config.pagination" />
+                            </template>
+                          </datatable-wrapper>
+                        </datatable-theme-provider>
+                      </div>
+
+
+{#                    <div class="input-group mb-3 border-left-0" style="padding-right: 60px; margin-top: 50px;">#}
+{#                      <input id="search" type="text" onchange="search()" class="form-control border-top-0 border-start-0" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">#}
+{#                      <div class="input-group-append">#}
+{#                        <button class="btn btn-outline-secondary border-start-0 border-top-0" onclick="search()" type="button" style="border-width: 1px; border-color:#eeeeee;" ><i class="mdi mdi-magnify me-1 fa-2x"></i></button>#}
+{#                      </div>#}
+{#                    </div>#}
+                    <table id="example" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>First name</th>
+                                <th>Last name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Start date</th>
+                                <th>Salary</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>First name</th>
+                                <th>Last name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Start date</th>
+                                <th>Salary</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+{#                        <table class="table table-hover table-striped nowrap">#}
+{#                          <thead>#}
+{#                            <tr>#}
+{#                              <th scope="col">#</th>#}
+{#                              <th scope="col"><button><i class="mdi mdi-arrow-down me-1 fa-1x"></i></button>Email</th>#}
+{#                              <th scope="col">First Name</th>#}
+{#                              <th scope="col">Last Name</th>#}
+{#                              <th scope="col">Username</th>#}
+{#                              <th scope="col">Permissions</th>#}
+{#                              <th scope="col">Actions</th>#}
+{#                            </tr>#}
+{#                          </thead>#}
+{#                          <tbody>#}
+{#                          {% for element in data %}#}
+{#                              <tr>#}
+{#                              <th scope="row">{{ forloop.counter }}</th>#}
+{#                              <td>{{ element.email }}</td>#}
+{#                              <td>{{ element.first_name }}</td>#}
+{#                              <td>@{{ element.last_name }}</td>#}
+{#                              <td>@{{ element.username }}</td>#}
+{#                              <td></td>#}
+{#                              <td class="justify-content-around">#}
+{#                                  <button id="{{ element.id }}" type="button" class="btn btn-success float-start p-1 py-0" style="padding-top: 0px; background-color: transparent;border-color: transparent;"><i class="mdi mdi-pencil " style="font-size: 1.5em !important; color: green" ></i></button>#}
+{#                                  <button id="{{ element.id }}" type="button" class="btn btn-danger p-1 py-0" style="margin-left: 20px; background-color: transparent;border-color: transparent;"><i class="mdi mdi-trash-can " style="font-size: 1.5em !important; color: red " ></i></button>#}
+{#                              </td>#}
+{#                            </tr>#}
+{#                          {% endfor %}#}
+{#                            <tr>#}
+{#                              <th scope="row">1</th>#}
+{#                              <td>{{ data }}</td>#}
+{#                              <td>Otto</td>#}
+{#                              <td>@mdo</td>#}
+{#                            </tr>#}
+{#                          </tbody>#}
+{#                        </table>#}
+{#                        <div class="row float-end gx-4 " style="width: 40% !important;">#}
+{#                            <div class="col-4"><p class="align-middle mt-auto">Rows per page:</p></div>#}
+{#                            <div class="col">#}
+{#                                <select id="rows_per_page" onchange="change()" class="form-select " aria-label="Default select example">#}
+{#                                    {% for i in items_per_page %}#}
+{#                                        <option value="{{ i }}" >{{ i }}</option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+{#                            </div>#}
+{#                            <div class="col"><p>{{ start_index }} - {{ end_index }} of {{ count }} </p></div>#}
+{#                            <div class="col">#}
+{#                                <button onclick="prevPage()"><i class="mdi mdi-chevron-left me-1" style="font-size: 2em !important;" ></i></button>#}
+{#                                <button onclick="nextPage()"><i class="mdi mdi-chevron-right me-1" style="font-size: 2em !important;" ></i></button>#}
+{#                            </div>#}
+{#                            <div class="col"><i class="mdi mdi-chevron-right me-1" style="font-size: 2em !important;" ></i></div>#}
+{##}
+{#                        </div>#}
+
+                        <div id="app">
+                            <v-app>
+                                <v-text-field
+                                    v-model="search"
+                                    append-icon="mdi-magnify"
+                                    label="Search"
+                                    single-line
+                                    hide-details
+                                    style="max-height: 70px; margin-top:80px"
+                                  ></v-text-field>
+                                <v-data-table
+                                  :headers="headers"
+                                  :items="people"
+                                  :loading="loading"
+                                  :search="search"
+                                  no-data-text="No data to display"
+                                  class="elevation-1">
+                                  <template v-slot:items="props">
+                                    <td> <% props.item.username %></td>
+                                    <td class="text-xs-right"><% props.item.first_name %></td>
+                                    <td class="text-xs-right"><% props.item.last_name %></td>
+                                  </template>
+                                </v-data-table>
+                            </v-app>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+    </div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+ <!--  successfully modal  -->
+ <div id="success-btn" class="modal fade" tabindex="-1" aria-labelledby="success-btnLabel" aria-hidden="true" data-bs-scroll="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+               <div class="text-center">
+                   <i class="bx bx-check-circle display-1 text-success"></i>
+                   <h3 class="mt-3">New Customer Created Successfully</h3>
+               </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--  Extra Large modal example -->
+<div class="modal fade new-customer" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Username">Username</label>
+                            <input type="text" class="form-control" placeholder="Enter Username" id="NewCustomers-Username">
+                        </div>
+                    </div>
+                   <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Email">Email</label>
+                            <input type="text" class="form-control" placeholder="Enter Email" id="NewCustomers-Email">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Phone">First Name</label>
+                            <input type="text" class="form-control" placeholder="First Name" id="NewCustomers-Phone">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Wallet">Last Name</label>
+                            <input type="text" class="form-control" placeholder="Last Name" id="NewCustomers-Wallet">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="text" class="form-control" placeholder="Password" id="customers-date">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Address">Confirm Password</label>
+                            <input type="text" class="form-control" placeholder="Retype Password" id="NewCustomers-Address">
+                        </div>
+                    </div>
+               </div>
+               <div class="row mt-2">
+                <div class="col-12 text-end">
+                    <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal"><i class="bx bx-x me-1"></i> Cancel</button>
+                    <button type="submit" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#success-btn" id="btn-save-event"><i class="bx bx-check me-1"></i> Confirm</button>
+                </div>
+            </div>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% endblock %}
+{% block extra_javascript %}
+{#    #}
+    <script>
+    {#$(document).ready(function () {#}
+    {#$('#example').DataTable({#}
+    {#    processing: true,#}
+    {#    serverSide: true,#}
+    {#    ajax: '/userslist',#}
+    {#});#}
+    {#});#}
+
+
+    {#document.getElementById("rows_per_page").value = {{ rows_per_page }}#}
+    {#function change() {#}
+    {#    let val = document.getElementById('rows_per_page').value#}
+        {#alert(val)#}
+    {#    window.location.href = `/userslistpaginated/${val}/{{ page_num }}/{{ search_query }}`#}
+    {#}#}
+    {##}
+    {#function nextPage(){#}
+    {#    let currentPage = {{ page_num }}#}
+    {#        if (`{{ has_next }}` === "True"){#}
+    {#            window.location.href = `/userslistpaginated/{{rows_per_page}}/${currentPage + 1}/{{ search_query }}`#}
+    {#        }#}
+    {#}#}
+    {##}
+    {#function prevPage(){#}
+    {#    let currentPage = {{ page_num }}#}
+    {#        if (`{{ has_previous }}` === "True"){#}
+    {#            window.location.href = `/userslistpaginated/{{rows_per_page}}/${currentPage - 1}/{{ search_query }}`#}
+    {#        }#}
+    {#}#}
+    {##}
+    {#function search(){#}
+        {#e.preventDefault()#}
+        {#alert("Mudi")#}
+    {#    let val = document.getElementById("search").value#}
+    {#    window.location.href = `/userslistpaginated/{{ rows_per_page }}/{{ page_num }}/${val}`#}
+    {#}#}
+    </script>
+
+    <script>
+    var app = new Vue({
+      delimiters: ['[[', ']]'],
+      el: '#app',
+      vuetify: new Vuetify(),
+    });
+  </script>
+
+    <script>
+        export default {
+          data() {
+            return {
+              url: '/userslistpaginated/10/1/_',
+              options: {
+                crud: true
+              }
+            }
+          },
+          methods: {
+            onPerPageChanged(limit) {
+              console.log('Limt changed:', limit);
+            },
+            onSearch(term) {
+              console.log('Search term changed:', term);
+            },
+            onColumnClicked(column, direction) {
+              console.log('Column clicked:', column, direction);
+            },
+            onGettingRecords() {
+              //
+            },
+            onRecordsFetched({columns, data, pagination}) {
+              console.log('Records were fetched:', columns, data, pagination);
+            },
+            onPaginate(page) {
+              console.log('Page was changed:', page);
+            },
+            async onCreate(modal, reload) {
+              // open a modal form for creating a record
+              // when the form is submited, send a request to the server to create the record.
+              // finally do remember to invoke reload();
+
+              modal({
+                confirmed: (inputs) => {
+                  console.log(`Creating a record...`);
+                  // const response = await axios.post('/create');
+                  reload();
+                },
+                canceled: () => {
+                  console.log(`Creating a record was canceled...`);
+                }
+              });
+
+            },
+            async onEdit(id, modal, reload) {
+              // open a modal form for editing a specific record
+              // when the form is submited, send a request to the server to modify the record.
+              // finally do remember to invoke reload();
+
+              modal({
+                confirmed: (inputs) => {
+                  console.log(`Editing record ${id}...`);
+                  // const response = await axios.put('/update');
+                  reload();
+                },
+                canceled: () => {
+                  console.log(`Editing record ${id} was canceled...`);
+                }
+              });
+            },
+            async onDelete(id, prompt, reload) {
+              // Send an ajax request to the server for deleting a record
+              // And finally invoke reload() for refreshing the table.
+
+              prompt({
+                confirmed: () => {
+                  console.log(`Deleting record ${id}...`);
+                  // const response = await axios.delete('/delete');
+                  reload();
+                },
+                canceled: () => {
+                  console.log(`Deleting record ${id} was canceled...`);
+                }
+              });
+            }
+          }
+        }
+        </script>
+
+
+ <script src="{% static 'js/pages/userlist.init.js' %}"></script>
+
+ <!-- datepicker js -->
+ <script src="{% static 'libs/flatpickr/dist/flatpickr.min.js' %}"></script>
+
+ <!-- gridjs js -->
+ <script src="{% static 'libs/gridjs/dist/gridjs.umd.js' %}"></script>
+
+{# <script src="{% static 'js/pages/auth-userslist.init.js' %}"></script>#}
+
+{#    <script src="{% static 'js/pages/ecommerce-customers.init.js' %}"></script>#}
+{% endblock extra_javascript %}

@@ -1,0 +1,18 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block head_title%}
+    <title>Dashboard | Symox - Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block content %}
+{% include 'partials/content.html' %}
+{% endblock %}
+
+{% block extra_javascript %}
+<!-- apexcharts -->
+    <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+    <!-- Chart JS -->
+    <script src="{% static 'js/pages/chartjs.js' %}"></script>
+
+    <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+{% endblock %}

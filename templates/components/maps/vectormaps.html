@@ -1,0 +1,113 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block head_title%}
+        <title>Vector Maps  | Symox - Minimal Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block extra_css %}
+<!-- plugin css -->
+<link href="{% static 'libs/jsvectormap/dist/css/jsvectormap.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">Vector Maps</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Maps</a></li>
+                            <li class="breadcrumb-item active">Vector Maps</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">World Vector Map</h4>
+                     </div><!-- end card header -->
+                    <div class="card-body">
+                        <div id="world-map-line-markers" style="height: 420px"></div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->  
+        </div>
+        <!-- end row-->
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">World Vector Map with Markers</h4>
+                    </div><!-- end card header -->
+
+                    <div class="card-body">
+                        <div id="world-map-markers" style="height: 350px"></div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">World Vector Map with Image Markers</h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">
+                        <div id="world-map-markers-image"  style="height: 350px"></div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+        </div><!-- end row-->
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">USA Vector Map</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="usa-vectormap" style="height: 350px"></div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Canada Vector Map</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="canada-vectormap"  style="height: 350px"></div>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+        </div>
+        <!-- end row-->
+
+    </div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+{% endblock %}
+
+{% block extra_javascript %}
+    <!-- Vector map-->
+    <script src="{% static 'libs/jsvectormap/dist/js/jsvectormap.min.js' %}"></script>
+    <script src="{% static 'libs/jsvectormap/dist/maps/world-merc.js' %}"></script>
+    <script src="{% static 'libs/jsvectormap/dist/maps/us-merc-en.js' %}"></script>
+    <script src="{% static 'libs/jsvectormap/dist/maps/canada.js' %}"></script>
+
+    <!-- vector-maps init -->
+    <script src="{% static 'js/pages/vector-maps.init.js' %}"></script>
+{% endblock extra_javascript %}

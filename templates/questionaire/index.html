@@ -1,0 +1,276 @@
+{% extends 'questionaire/base.html' %}
+{% load static %}
+
+{% block head_title%}
+        <title>QUESTIONAIRE | Symox - Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block content %}
+<div class="page-content" v-model="references" id="app">
+    <div class="container-fluid" v-cloak>
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">QUESTIONAIRE</h4>
+                    
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
+                            <li class="breadcrumb-item active">Questionaire</li>
+                            <li class="breadcrumb-item active">Add New</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row" :context="{{context}}">
+
+            <div class="col-md-6 col-xl-6 "  >
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Add New</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="needs-validation" novalidate> 
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="mt-4 mt-xl-0">
+                                    <!-- <h5 class="font-size-14 mb-4"><i class="mdi mdi-arrow-right text-primary me-1"></i> Form groups</h5> -->
+                                        <div class="mb-3">
+                                            <label class="form-label" for="formrow-firstname-input">Question</label>
+                                            <input required v-if="questionDB.length===0" v-model="question.title" type="text" class="form-control" placeholder="Enter Question" id="formrow-firstname-input">
+                                            <select v-if="questionDB.length>0"   :class=`form-select${errors.title}` @change="evtChange($event)" aria-label="Default select example"  >
+                                                <option disabled selected >Select an option</option>
+                                                <option v-for="item in questionDB" :value="item.id" :key="item.id">  {% verbatim x %}{{item.title}} {% endverbatim x %} </option>
+                                             </select> 
+                                        </div>  
+                                        {% csrf_token %}
+                                        <div class="row">                                                            
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="formrow-email-input">Option type</label>
+                                                    <select v-model="question.optionType"  :class=`form-select${errors.optionType}`  aria-label="Default select example">
+                                                        <option value="" disabled>Select Option</option>
+                                                        <option value="Predefined" @click="add"  >Predefined</option>
+                                                        <option value="Custom">Custom</option> 
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label " for="formrow-password-input">Type </label> 
+                                                    <select v-model="question.type" :class=`form-select${errors._type}` aria-label="Default select example"  >
+                                                        <!-- <select v-model="question.type" class="form-select" aria-label="Default select example"  > -->
+                                                        <option value="" disabled>Select Option</option>
+                                                        <option value="Dropdown">Dropdown</option> 
+                                                        <option value="Number">Number</option> 
+                                                        <option value="Radio">Radio</option> 
+                                                        <option value="checkbox">checkbox</option> 
+                                                        <option value="Rating">Rating</option> 
+                                                        <option value="Tags">Tags</option> 
+                                                        <option value="Single-choice matrix">Single-choice matrix</option> 
+                                                        <option value="Multi-choice matrix">Multi-choice matrix</option> 
+                                                    </select>
+                                                </div>
+                                            </div> 
+                                            <!-- <div class="col-md-4"> -->
+                                                <div  v-if="question.optionType==='Predefined'" class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label " for="formrow-password-input">Multi Select </label>
+                                                        <select v-model="question.multiselect"  :class=`form-select${errors.multiselect}` :class=`form-control${isInvalid}` aria-label="Default select example"  >
+                                                        <option value="" disabled>Select Option</option>
+                                                        <option value="Yes">Yes</option> 
+                                                        <option value="No">No</option> 
+                                                    </select> 
+                                                </div>
+                                            </div> 
+                                        </div>  
+
+
+                                        
+                                        <div v-if="question.optionType==='Predefined'" >
+                                            <label class="form-label" for="formrow-email-input">Select options</label>
+                                                <div v-for="(item,index) in question.options" class="row">    
+                                                   <div class="col-md-4">
+                                                        <div class="mb-3">
+                                                            <input type="text" v-model="item.option"  class="form-control" placeholder="Option answer" id="formrow-firstname-input">
+                                                        </div>
+                                                    </div>
+                                                     
+                                                    <div class="col-md-1 pt-2">
+                                                        <div class="form-check">
+                                                        <input v-if="index>0" type="checkbox" @click="copy(index)"  class="form-check-input"  id="formrow-customCheck">
+                                                     </div> 
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="mb-3"  >
+                                                            <input type="text" v-model="item.next_question"  class="form-control" placeholder="Option reference" id="formrow-firstname-input">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2  pt-2">
+                                                        <div class="form-check">
+                                                        <input type="checkbox"v-model="item.isEnd" class="form-check-input" id="formrow-customCheck">
+                                                        <label class="form-check-label" for="formrow-customCheck">End</label>
+                                                    </div> 
+                                                    </div>
+                                                    <div class="col-md-1  pt-2">
+                                                         <i class="far fa-trash-alt" @click="filterOptions(index)" ></i>
+                                                    </div>
+                                                </div> 
+                                            <div class="mb-3"> 
+                                                <button @click="add" type="submit"  class="btn btn-primary btn-sm"  >+</button>
+                                             </div> 
+                                        </div> 
+
+
+
+                                             
+
+
+                                            <div class="col-md-5"  v-if="question.optionType==='Custom'" >
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="formrow-email-input">Next Question</label>
+                                                    <input type="text"  v-model="question.nextRef" class="form-control" placeholder="Next Ref/ Question" id="formrow-firstname-input">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="formrow-password-input"> Group Text </label>
+                                                    <input type="text" v-model="question.groupText"  :class=`form-control${errors.groupText}` placeholder="Group Text"  >
+                                                    <!-- <input type="text" v-model="question.groupText"  :class='isInvalid' placeholder="Group Text"  > -->
+                                                    <div class="invalid-feedback">Please enter a group text in the textarea.</div>
+                                                    <!-- <input type="text" v-model="question.groupText"  class="form-control" placeholder="Group Text" id="formrow-firstname-input"> -->
+                                                </div>
+                                            </div> 
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="formrow-password-input"> End Note</label>
+                                                    <input type="text" v-model="question.endNote"  :class=`form-control${errors.endNote}` placeholder="End Note" >
+                                                    <div class="invalid-feedback">Please enter a end note in the textarea.</div>
+                                                </div>
+                                            </div> 
+                                </div>
+                            </div> 
+                        </div>
+ 
+
+                        <div class="row mt-4">
+                            <div class="col-lg-6">
+                                <!-- <form class="row gx-3 gy-2 align-items-center"> -->
+                                    <div class="hstack gap-3">
+                                        
+                                            <div class="form-check">
+                                            <input v-model="question.isEnd"  type="checkbox" class="form-check-input" id="formrow-customCheck">
+                                            <label class="form-check-label" for="formrow-customCheck">End</label>
+                                        </div>
+                                        <!-- <button type="button" class="btn btn-secondary">Submit</button> -->
+                                        <div class="vr"></div>
+                                        <button type="submit" v-on:click="handleInput()" type="submit" class="btn btn-primary w-md">
+                                            <!-- <button type="submit" v-on:click="upDateDB()" type="submit" class="btn btn-primary w-md"> -->
+                                            {% verbatim  %}
+                                            {{ editMode?'Update':'Submit' }}
+                                            {% endverbatim  %}</button>
+                                    </div>
+                                <!-- </form> -->
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+            <!-- </div>end col -->
+                  
+            
+            <div class="col-md-6 col-xl-6"> 
+                <div id="addproduct-accordion" class="custom-accordion scrollContainer">
+                    
+                            <div class="card mb-1 py-2" v-for="(item,index) in questionDB"  v-if="this.isEmpty[0]==1">
+                                <a :href=`#ere${item.id}`  class="text-dark collapsed" data-bs-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-haspopup="true"  >
+                                    <div class="">
+                                        
+                                        <div class="px-2 d-flex align-items-center">
+                                            <div class="flex-shrink-0 me-3 ">
+                                                <div class="avatar-xs fs-11 ">
+                                                    <div class="avatar-title rounded-circle text-center bg-soft-primary text-primary">
+                                                        <!-- <h1 class="h6 my-3">{% verbatim  %}{{index+1}} {% endverbatim  %}</h1> -->
+                                                       {% verbatim  %}{{index+1}} {% endverbatim  %} 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <h5 class="font-size-14 my-1"> {% verbatim  %}{{truncate(item.title)}} {% endverbatim  %} </h5> 
+                                                <!-- <h5 class="font-size-16 mb-1"><p><small>{% verbatim  %}{{truncate(item.title)}} {% endverbatim  %}</small></p></h5>  -->
+                                            </div>
+                                            <i class="fas fa-pen m-2 fa-xs":id="item.id" :title="item.title"  @click="editQuestion" ></i>
+                                            <i class="far fa-trash-alt m-2 fa-xs":title="item.title":id="item.id"  @click="deleteQuestion" ></i>
+                    
+                                            <div class="flex-shrink-0">
+                                                <i class="mdi mdi-chevron-up accor-down-icon font-size-16"></i>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                </a>
+
+                                <div :id=`ere${item.id}` class="collapse" data-bs-parent="#addproduct-accordion">
+                                    <div class="px-4 py-1 border-top">
+                                        <p class="font-size-12 my-1">{% verbatim  %}{{item.title}} {% endverbatim  %}</p>
+                                             
+                                            <div>
+                                                <strong v-if="item.options.length>0" class="font-size-12">Options :</strong>  
+                                                <h6 v-for="(ref,index) in item.options " class="font-size-12 mx-4">
+                                                     <i class="fas fa-dot-circle fa-sm ":title="item.title":id="item.id"  @click="deleteQuestion" ></i>
+
+                                                     {% verbatim  %}{{ref.option}} {% endverbatim  %}  
+                                                </h6>
+                                                
+                                            
+                                            </div> 
+                                    </div>
+                                </div>
+                            <!-- </div>
+                        </div> -->
+                            </div>
+
+                            <div class="card" v-if="this.isEmpty[0]==0">
+                                <a href="#addproduct-img-collapse" class="text-dark collapsed" data-bs-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-haspopup="true" aria-controls="addproduct-img-collapse">
+                                    <div class="p-4">
+                                        
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-shrink-0 me-3">
+                                                <div class="avatar-sm">
+                                                    <div class="avatar-title rounded-circle bg-soft-primary text-primary">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <h5 class="font-size-16 mb-1">No Question Entered !</h5>
+                                            </div> 
+                                        </div>
+                                        
+                                    </div>
+                                </a> 
+                            </div> 
+                </div>
+            </div>
+             
+            <!-- end col --> 
+        </div>  
+        <!-- end row --> 
+                              
+    </div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+{% endblock %}
+{% block extra_javascript %}
+    <!-- Card Masonry -->
+    <script src="{% static 'libs/masonry-layout/dist/masonry.pkgd.min.js' %}"></script>
+{% endblock extra_javascript %}
+

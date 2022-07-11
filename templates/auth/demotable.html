@@ -1,0 +1,115 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block head_title%}
+        <title>Customers | Symox - Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block extra_css %}
+<!-- <link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet" /> -->
+    <!-- link rel='stylesheet' href="{% static 'datatables.net-bs/css/dataTables.bootstrap.min.css' %}" -->
+    <link rel='stylesheet' href="{% static 'datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel='stylesheet' href="{% static 'datatables.net-buttons-bs/css/buttons.bootstrap.min.css' %}">
+
+{% endblock extra_css %}
+
+{% block extrajs %}
+
+    <!-- <script type="text/javascript" src="{% static 'ajax_datatable/js/utils.js' %}"></script> -->
+
+    <script src="{% static 'datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <!-- script src="{% static 'datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script -->
+    <script src="{% static 'datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'pdfmake/build/vfs_fonts.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col">
+                <table id="datatable_permissions">
+                </table>
+
+{#or:#}
+
+{#<div class="table-responsive">#}
+{#    <table id="datatable_permissions" width="100%" class="table table-striped table-bordered dt-responsive compact nowrap">#}
+{#    </table>#}
+{#</div>#}
+
+...
+
+
+            </div>
+        </div>
+        <!-- end page title -->
+
+
+
+    </div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+ <!--  successfully modal  -->
+ <div id="success-btn" class="modal fade" tabindex="-1" aria-labelledby="success-btnLabel" aria-hidden="true" data-bs-scroll="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+               <div class="text-center">
+                   <i class="bx bx-check-circle display-1 text-success"></i>
+                   <h3 class="mt-3">New Customer Created Successfully</h3>
+               </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--  Extra Large modal example -->
+
+{% endblock %}
+{% block extra_javascript %}
+{#    #}
+    <script language="javascript">
+
+    $(document).ready(function() {
+        AjaxDatatableViewUtils.initialize_table(
+            $('#datatable_permissions'),
+            // "{% url 'ajax_datatable_permissions' %}",
+            {
+                // extra_options (example)
+                processing: false,
+                autoWidth: false,
+                full_row_select: true,
+                scrollX: false
+            }, {
+                // extra_data
+                // ...
+            },
+        );
+    });
+
+</script>
+
+ <script src="{% static 'js/pages/userlist.init.js' %}"></script>
+
+ <!-- datepicker js -->
+ <script src="{% static 'libs/flatpickr/dist/flatpickr.min.js' %}"></script>
+
+ <!-- gridjs js -->
+ <script src="{% static 'libs/gridjs/dist/gridjs.umd.js' %}"></script>
+
+{# <script src="{% static 'js/pages/auth-userslist.init.js' %}"></script>#}
+
+{#    <script src="{% static 'js/pages/ecommerce-customers.init.js' %}"></script>#}
+{% endblock extra_javascript %}

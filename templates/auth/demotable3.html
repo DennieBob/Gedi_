@@ -1,0 +1,140 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block head_title%}
+        <title>Customers | Symox - Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block extra_css %}
+    <!-- <link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet" /> -->
+    <link rel='stylesheet' href="{% static 'datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel='stylesheet' href="{% static 'datatables.net-buttons-bs/css/buttons.bootstrap.min.css' %}">
+    <link rel='stylesheet' href="{% static 'css/myStyles.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+{% endblock extra_css %}
+
+{% block extrajs %}
+
+{% endblock %}
+
+{% block content %}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>#}
+
+    <script>
+    const people = {{ data|safe }}
+    </script>
+
+<div class="page-content">
+    <div class="container-fluid">
+         <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">Users List</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Accounts</a></li>
+                            <li class="breadcrumb-item active">Users List</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="mb-4 mt-5" >
+        <p>{{ data |safe }}</p>
+        <ol>
+            {% for user in data %}
+                <li>{{ user.email }}</li>
+            {% endfor %}
+        </ol>
+
+        </div>
+
+
+
+        <div id="app">
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% block extra_javascript %}
+
+{#    <script>#}
+{#    var editor;#}
+{##}
+{#    $(document).ready(function () {#}
+        {#$.noConflict();#}
+{##}
+{#    $('#example').DataTable({#}
+{#        processing: true,#}
+{#        ajax: 'dummy2',#}
+        {#columnDefs: [#}
+        {#    {#}
+        {#        targets: -1,#}
+        {#        data: null,#}
+        {#        defaultContent: '<button>Click!</button>',#}
+        {#    },#}
+        {#],#}
+{#        columns: [#}
+{#            { "data": "email" },#}
+{#            { "data": "first_name" },#}
+{#            { "data": "last_name" },#}
+{#            {#}
+{#              "data": null,#}
+{#                defaultContent: ""#}
+{#            },#}
+{#            {#}
+{#              "data": null,#}
+{#              "defaultContent": "<button onclick='editClicked(event)' class='mdi mdi-pencil me-1' style='font-size: 1.5em;'></i></button>" +#}
+{#                  "<button><i class='mdi mdi-delete ml-2 text-danger' style='font-size: 1.5em;'></i></button>",#}
+{#                "width": "10%"#}
+{#            }#}
+{#          ],#}
+        {#dom: 'lBfrtip',#}
+{#        buttons: [#}
+{#            {#}
+{#                text: '<i class="mdi mdi-account-plus ml-2 border-dark" style="font-size: 1.5em;"></i>',#}
+{#                action: function ( e, dt, node, config ) {#}
+{#                    alert( 'Button clicked' );#}
+{#                }#}
+{#            }#}
+{#        ]#}
+{#    });#}
+{#    });#}
+{##}
+{#    function editClicked(event) {#}
+{#        let parentRow = event.target.parentElement.parentElement#}
+{#        alert(parentRow)#}
+{#    }#}
+{#  </script>#}
+{#    <style>#}
+{#    .dt-button {#}
+{#        margin-left: 30px;#}
+{#        border-color: grey; border-width: 1px !important;#}
+{#    }#}
+{#    .dt-buttons{#}
+{#        display: inline !important;#}
+{#    }#}
+{#    </style>#}
+
+    <script type='text/javascript'>
+    var people = {{ data|safe }};
+  </script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+<script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+{#<script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>#}
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+ <script src="{% static 'js/pages/userlist.init.js' %}"></script>
+{% endblock extra_javascript %}

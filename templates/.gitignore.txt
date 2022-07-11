@@ -1,0 +1,8 @@
+account/
+apps/
+auth/
+authentication/
+bootstrap/
+components/
+pages/
+partials/

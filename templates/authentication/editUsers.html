@@ -1,0 +1,324 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block head_title%}
+        <title>Customers | Symox - Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block extra_css %}
+    <!-- <link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet" /> -->
+    <link rel='stylesheet' href="{% static 'datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel='stylesheet' href="{% static 'datatables.net-buttons-bs/css/buttons.bootstrap.min.css' %}">
+    <link rel='stylesheet' href="{% static 'css/myStyles.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+{% endblock extra_css %}
+
+{% block extrajs %}
+
+{% endblock %}
+
+{% block content %}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+{#    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>#}
+
+<div class="page-content">
+    <div class="container-fluid">
+         <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">Edit User</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Accounts</a></li>
+                            <li class="breadcrumb-item active">Edit User</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="addproduct-accordion" class="custom-accordion">
+                    <div class="card">
+                        <a href="#addproduct-productinfo-collapse" class="text-dark" data-bs-toggle="collapse" aria-expanded="true" aria-controls="addproduct-productinfo-collapse">
+                            <div class="p-4">
+
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar-sm">
+                                            <div class="avatar-title rounded-circle bg-soft-primary text-primary">
+                                                01
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <h5 class="font-size-16 mb-1">User Info</h5>
+                                        <p class="text-muted text-truncate mb-0">Basic information about the user</p>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </a>
+
+                        <div id="addproduct-productinfo-collapse" class="collapse show" data-bs-parent="#addproduct-accordion">
+                            <div class="p-4 border-top">
+                                <form>
+                                    <div class="row gx-1 justify-content-around">
+                                        <div class="col-lg-5">
+
+                                            <div class="mb-3">
+                                                <label class="form-label" for="firstname">First Name</label>
+                                                <input id="firstname" name="firstname" value="{{ user.first_name }}" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+
+                                            <div class="mb-3">
+                                                <label class="form-label" for="lastname">Last Name</label>
+                                                <input id="lastname" name="lastname" value="{{ user.last_name }}" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row gx-1 justify-content-around">
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input id="email" name="email" value="{{ user.email }}" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label for="choices-single-specifications" class="form-label">Username</label>
+                                                <input id="username" name="username" value="{{ user.user_name }}" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row gx-1 justify-content-around">
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input id="password" name="password"  type="password" class="form-control">
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label for="confirmpassword" class="form-label">Confirm Password</label>
+                                                <input id="confirmpassword" name="confirmpassword"  type="password" class="form-control">
+                                                <div class="mb-3">
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row gx-1 justify-content-around">
+                                        <div class="col-md-5">
+                                            <label for="phone" class="form-label">Phone Number</label>
+                                                <input id="phone" name="phone" value="{{ user.phone }}" type="text" class="form-control">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="mb-3">
+                                                <label for="groups" class="form-label">Groups</label>
+                                                <select name="groups" id="groups" class="form-select">
+                                                    {% for grp in groups %}
+                                                        <option value="{{ grp.name }}" {% if grp.name == usergroup %}selected{% endif %}>
+                                                            {{ grp.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <a href="#addproduct-img-collapse" class="text-dark collapsed" data-bs-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-haspopup="true" aria-controls="addproduct-img-collapse">
+                            <div class="p-4">
+
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div class="avatar-sm">
+                                            <div class="avatar-title rounded-circle bg-soft-primary text-primary">
+                                                02
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 overflow-hidden">
+                                        <h5 class="font-size-16 mb-1">Permissions</h5>
+                                        <p class="text-muted text-truncate mb-0">The permissions the user has</p>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </a>
+
+                        <div id="addproduct-img-collapse" class="collapse" data-bs-parent="#addproduct-accordion">
+                            <div class="p-4 border-top">
+                                <div class="row gx-5 justify-content-around">
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                            {{ child_perms }}
+{#                                            {{ permission_headers }}#}
+                                            <ol>
+                                                {% for heading in super_parents %}
+                                                    <h4>{{ heading.1 }}</h4>
+                                                    <table class="table table-bordered mb-5 text-center">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 50%;"></th>
+                                                        <th style="width: 10%">All</th>
+                                                        <th style="width: 10%">Create</th>
+                                                        <th style="width: 10%">Update</th>
+                                                        <th style="width: 10%">Active</th>
+                                                        <th style="width: 10%">Deleted</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for perm in parent_perms %}
+                                                        {% if perm.4 == heading.0 %}
+                                                        <tr>
+                                                            <td style="text-align: left !important;">{{ perm.1 }}</td>
+                                                            <td>
+                                                                <div class="custom-control custom-switch">
+                                                                      <input type="checkbox" class="custom-control-input" id="all_{{ perm.1 }}">
+                                                                      <label class="custom-control-label" for="all_{{ perm.1 }}"></label>
+                                                                    </div>
+                                                            </td>
+                                                            {% for child in child_perms %}
+                                                                {% if child.3 == perm.0 %}
+                                                                    <td>
+                                                                    <div class="custom-control custom-switch">
+                                                                      <input type="checkbox" class="custom-control-input" id="{{ child.2 }}">
+                                                                      <label class="custom-control-label" for="{{ child.2 }}"></label>
+                                                                    </div>
+                                                                     </td>
+                                                                {% endif %}
+                                                            {% endfor %}
+{#                                                            <td></td>#}
+{#                                                            <td></td>#}
+{#                                                            <td></td>#}
+{#                                                            <td></td>#}
+                                                        </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                {% endfor %}
+                                            </ol>
+
+                                            </div>
+                                        </div>
+{#                                        <div class="col-md-4">#}
+{#                                            <div class="mb-3">#}
+{#                                                <label for="usergroups" class="form-label">User Groups</label>#}
+{#                                                <textarea name="usergroups" id="usergroups" cols="30" rows="5"></textarea>#}
+{#                                            </div>#}
+{#                                        </div>#}
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+{#                    <div class="card">#}
+{#                        <a href="#addproduct-metadata-collapse" class="text-dark collapsed" data-bs-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-haspopup="true" aria-controls="addproduct-metadata-collapse">#}
+{#                            <div class="p-4">#}
+{##}
+{#                                <div class="d-flex align-items-center">#}
+{#                                    <div class="flex-shrink-0 me-3">#}
+{#                                        <div class="avatar-sm">#}
+{#                                            <div class="avatar-title rounded-circle bg-soft-primary text-primary">#}
+{#                                                03#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="flex-grow-1 overflow-hidden">#}
+{#                                        <h5 class="font-size-16 mb-1">Permissions</h5>#}
+{#                                        <p class="text-muted text-truncate mb-0">The Permissions of the User</p>#}
+{#                                    </div>#}
+{#                                    <div class="flex-shrink-0">#}
+{#                                        <i class="mdi mdi-chevron-up accor-down-icon font-size-24"></i>#}
+{#                                    </div>#}
+{##}
+{#                                </div>#}
+{##}
+{#                            </div>#}
+{#                        </a>#}
+{##}
+{#                        <div id="addproduct-metadata-collapse" class="collapse" data-bs-parent="#addproduct-accordion">#}
+{#                            <div class="p-4 border-top">#}
+{#                                <form>#}
+{#                                    <div class="row">#}
+{#                                        <div class="col-sm-6">#}
+{#                                            <div class="mb-3">#}
+{#                                                <label class="form-label" for="metatitle">Meta Title</label>#}
+{#                                                <input id="metatitle" name="metatitle" placeholder="Enter Title" type="text" class="form-control">#}
+{#                                            </div>#}
+{##}
+{#                                        </div>#}
+{##}
+{#                                        <div class="col-sm-6">#}
+{#                                            <div class="mb-3">#}
+{#                                                <label class="form-label" for="metakeywords">Meta Keywords</label>#}
+{#                                                <input id="metakeywords" name="metakeywords" placeholder="Enter Keywords" type="text" class="form-control">#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="mb-0">#}
+{#                                        <label class="form-label" for="metadescription">Meta Description</label>#}
+{#                                        <textarea class="form-control" id="metadescription" placeholder="Enter Description" rows="4"></textarea>#}
+{#                                    </div>#}
+{#                                </form>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="app">
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% block extra_javascript %}
+
+
+    <script type='text/javascript'>
+    var people = {{ users|safe }};
+  </script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+<script src="https://cdn.datatables.net/datetime/1.1.2/js/dataTables.dateTime.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+{#<script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>#}
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+{# <script src="{% static 'js/pages/userlist.init.js' %}"></script>#}
+{% endblock extra_javascript %}

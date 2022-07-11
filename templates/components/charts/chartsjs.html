@@ -1,0 +1,113 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block head_title%}
+        <title>Chartjs | Symox - Minimal Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">Chartjs</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Charts</a></li>
+                            <li class="breadcrumb-item active">Chartjs</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Line Chart</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="lineChart" class="chartjs-chart" data-colors='["rgba(57, 128, 192, 0.2)", "#3980c0", "rgba(235, 239, 242, 0.2)", "#ebeff2"]'></canvas>   
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Bar Chart</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="bar" class="chartjs-chart" data-colors='["rgba(51, 161, 134, 0.8)", "rgba(51, 161, 134, 0.9)"]'></canvas>
+                          
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Pie Chart</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="pieChart" class="chartjs-chart" data-colors='["#33a186", "#ebeff2"]'></canvas>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Donut Chart</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="doughnut" class="chartjs-chart" data-colors='["#3980c0", "#ebeff2"]'></canvas>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Polar Chart</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="polarArea" class="chartjs-chart" data-colors='["#fa6374", "#33a186", "#fc931d", "#3980c0"]'> </canvas>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Radar Chart</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="radar" class="chartjs-chart" data-colors='["rgba(42, 181, 125, 0.2)", "#33a186", "rgba(57, 128, 192, 0.2)", "#3980c0"]'></canvas>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+{% endblock %}
+{% block extra_javascript %}
+    <!-- Chart JS -->
+    <script src="{% static 'libs/chart.js/dist/chart.min.js' %}"></script>
+    <script src="{% static 'js/pages/chartjs.init.js' %}"></script> 
+
+{% endblock extra_javascript %}

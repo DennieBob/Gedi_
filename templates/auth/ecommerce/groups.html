@@ -1,0 +1,245 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block head_title%}
+        <title>Customers | Symox - Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block extra_css %}
+<!-- datepicker css -->
+<link rel="stylesheet" href="{% static 'libs/flatpickr/dist/flatpickr.min.css' %}">
+<!-- gridjs css -->
+<link rel="stylesheet" href="{% static 'libs/gridjs/dist/theme/mermaid.min.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+
+{#<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>#}
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script type='text/javascript'>
+    var people = {{ data|safe }};
+    {#alert(people)#}
+
+
+
+    {#for (let person of people){#}
+    {#    delete person["_id"]#}
+    {#    delete person["date_joined"]#}
+    {#    delete person["last_login"]#}
+    {#    delete person["__ob__"]#}
+    {#    console.log(Object.keys(person))#}
+    {#}#}
+    console.log("People: ", people)
+  </script>
+
+{% endblock extra_css %}
+
+{% block content %}
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">Permissions</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">User Management</a></li>
+                            <li class="breadcrumb-item active">User Permissions</li>
+                        </ol>
+                    </div>
+{#                    <div>#}
+{#                        <h4 id="data" style="display: none">{{ data}}</h4>#}
+{#                        {% for element in data %}#}
+{#                        <p>{{ element.username }}</p>#}
+{#                        {% endfor %}#}
+{##}
+{#                    </div>#}
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="position-relative">
+                            <div class="modal-button mt-2">
+                                <button type="button" class="btn btn-danger waves-effect waves-light mb-2 me-2" data-bs-toggle="modal" data-bs-target=".new-customer"><i class="mdi mdi-plus me-1"></i> New Permission</button>
+                            </div>
+                        </div>
+
+                        <div id="app">
+                            <v-app>
+                                <v-text-field
+                                    v-model="search"
+                                    append-icon="mdi-magnify"
+                                    label="Search"
+                                    single-line
+                                    hide-details
+                                    style="max-height: 70px; margin-top:80px"
+                                  ></v-text-field>
+                                <v-data-table
+                                  :headers="headers"
+                                  :items="people"
+                                  :loading="loading"
+                                  :search="search"
+                                  :sort-by.sync="sortBy"
+                                  :sort-desc.sync="sortDesc"
+                                  no-data-text="No data to display"
+                                  class="elevation-1">
+                                  <template v-slot:items="props">
+                                    <td> <% props.item.username %></td>
+                                    <td class="text-xs-right"><% props.item.first_name %></td>
+                                    <td class="text-xs-right"><% props.item.last_name %></td>
+{#                                    <td class="text-xs-right"><% props.item.carbs %></td>#}
+{#                                    <td class="text-xs-right"><% props.item.protein %></td>#}
+{#                                    <td class="text-xs-right"><% props.item.iron %></td>#}
+                                  </template>
+                                </v-data-table>
+{#                              <v-main>#}
+{#                                <v-container>[[people]]</v-container>#}
+{#                              </v-main>#}
+                            </v-app>
+                        </div>
+
+{#                        <div id="users-table">[[people]]</div>#}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+    </div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+
+ <!--  successfully modal  -->
+ <div id="success-btn" class="modal fade" tabindex="-1" aria-labelledby="success-btnLabel" aria-hidden="true" data-bs-scroll="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+               <div class="text-center">
+                   <i class="bx bx-check-circle display-1 text-success"></i>
+                   <h3 class="mt-3">New Customer Created Successfully</h3>
+               </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--  Extra Large modal example -->
+<div class="modal fade new-customer" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Username">Username</label>
+                            <input type="text" class="form-control" placeholder="Enter Username" id="NewCustomers-Username">
+                        </div>
+                    </div>
+                   <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Email">Email</label>
+                            <input type="text" class="form-control" placeholder="Enter Email" id="NewCustomers-Email">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Phone">Phone</label>
+                            <input type="text" class="form-control" placeholder="Enter Phone" id="NewCustomers-Phone">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Wallet">Wallet</label>
+                            <input type="text" class="form-control" placeholder="0" id="NewCustomers-Wallet">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="text" class="form-control" placeholder="Select Date" id="customers-date">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="NewCustomers-Address">Address</label>
+                            <input type="text" class="form-control" placeholder="Enter Address" id="NewCustomers-Address">
+                        </div>
+                    </div>
+               </div>
+               <div class="row mt-2">
+                <div class="col-12 text-end">
+                    <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal"><i class="bx bx-x me-1"></i> Cancel</button>
+                    <button type="submit" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#success-btn" id="btn-save-event"><i class="bx bx-check me-1"></i> Confirm</button>
+                </div>
+            </div>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% endblock %}
+{% block extra_javascript %}
+    <script>
+    var app = new Vue({
+      delimiters: ['[[', ']]'],
+      el: '#app',
+      vuetify: new Vuetify(),
+      data: {
+          message: 'Hello Vue!',
+          sortBy: "id",
+          sortDesc: false,
+          people: people,
+          search: "",
+          headers: [
+                {
+                    text: 'ID',
+                    align: 'left',
+                    sortable: true,
+                    value: 'id',
+                    sorted: true,
+                },
+                { text: 'Permission ', value: 'name' },
+                { text: 'Alias', value: 'codename' },
+                {#{ text: 'Email', value: 'email' },#}
+                {#{ text: 'Oid', value: 'email' },#}
+                {#{ text: 'Protein (g)', value: 'protein' },#}
+                {#{ text: 'Iron (%)', value: 'iron' },#}
+            ],
+      },
+      methods: {
+          greet: function(name) {
+              console.log('Hello from ' + name + '!')
+          }
+      }
+    });
+  </script>
+
+ <!-- datepicker js -->
+ <script src="{% static 'libs/flatpickr/dist/flatpickr.min.js' %}"></script>
+
+ <!-- gridjs js -->
+ <script src="{% static 'libs/gridjs/dist/gridjs.umd.js' %}"></script>
+
+{# <script src="{% static 'js/pages/auth-userslist.init.js' %}"></script>#}
+
+{#    <script src="{% static 'js/pages/ecommerce-customers.init.js' %}"></script>#}
+{% endblock extra_javascript %}
