@@ -1,0 +1,164 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block head_title%}
+        <title>Advance Tables  | Symox - Minimal Admin & Dashboard Template</title>
+{% endblock %}
+
+{% block extra_css %}
+    <!-- gridjs css -->
+    <link rel="stylesheet" href="{% static 'libs/gridjs/dist/theme/mermaid.min.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0">Advance Tables</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                            <li class="breadcrumb-item active">Advance Tables</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">GridJs Table</h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">
+                        <div id="table-gridjs"></div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Pagination</h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">
+                        <div id="table-pagination"></div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Search</h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">
+                        <div id="table-search"></div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Sorting</h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">
+                        <div id="table-sorting"></div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Loading State</h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">
+                        <div id="table-loading-state"></div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header justify-content-between d-flex align-items-center">
+                        <h4 class="card-title mb-0">Fixed Header</h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">
+                        <div id="table-fixed-header"></div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Hidden Columns</h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">
+                        <div id="table-hidden-column"></div>
+                    </div>
+                    <!-- end card body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+        
+    </div> <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+{% endblock %}
+{% block extra_javascript %}
+<!-- gridjs js -->
+<script src="{% static 'libs/gridjs/dist/gridjs.umd.js' %}"></script> 
+
+ <script src="{% static 'js/pages/gridjs.init2.js' %}"></script>
+
+{% endblock extra_javascript %}
