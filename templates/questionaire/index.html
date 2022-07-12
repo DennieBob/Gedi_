@@ -50,11 +50,11 @@
                                              
                                             <select v-if="questionDB.length>0 && optionTitle!=''" v-model="optionTitle"  :class=`form-select${errors.title}` @change="evtChange2($event)" aria-label="Default select example"  >
                                                 <option disabled selected >Select an option</option>
-                                                <option v-for="item in questionDB" :value='item'  :key="item.title">  {% verbatim x %}{{item.title}} {% endverbatim x %} </option>
+                                                <option v-for="item in questionDB" :value='item'  :key="item.title">  {% verbatim  %}{{truncate(item.title)}} {% endverbatim  %}  </option>
                                              </select> 
                                              <select v-if="questionDB.length>0 && optionTitle==''"   :class=`form-select${errors.title}` @change="evtChange1($event)" aria-label="Default select example"  >
                                                 <option disabled selected >Select an option</option>
-                                                <option v-for="item in questionDB" :value="item.id" :key="item.id">  {% verbatim x %}{{item.title}} {% endverbatim x %} </option>
+                                                <option v-for="item in questionDB" :value="item.id" :key="item.id">   {% verbatim  %}{{truncate(item.title)}} {% endverbatim  %}  </option>
                                              </select> 
 
                                              <div class="invalid-feedback">Please enter a question.</div> 

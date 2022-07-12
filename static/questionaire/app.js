@@ -154,12 +154,16 @@ const app = Vue.createApp({
         this.errors.errs=0
         const isError = ' form-control is-invalid required'
         const {title,optionType,type:_type,multiselect,groupText,endNote,nextRef} = this.question
-  
+        
         if(!title){this.errors.title+=isError;this.errors.errs=1}else{this.errors.title=''}
+        console.log('bjk')
+        if(this.question.endNote==''){
+          console.log('bjkjhjh')
         if(!optionType){this.errors.optionType+=isError;this.errors.errs=1}else{this.errors.optionType=''}
         if(!_type){this.errors._type+=isError;this.errors.errs=1}else{this.errors._type=''}
         if(this.question.optionType=="Predefined")if(!multiselect){this.errors.multiselect+=isError;this.errors.errs=1}else{this.errors.multiselect=''}
         if(this.question.optionType=="Custom")if(!nextRef){this.errors.nextRef+=isError;this.errors.errs=1}else{this.errors.nextRef=''}
+      }
       },
     upDateDB(){ 
       this.handleInput() 
